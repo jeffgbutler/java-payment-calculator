@@ -126,7 +126,7 @@ this by modifying [pom.xml](pom.xml).
 
 1. Create Deployment:
 
-   Note: change the values in [paymentCalculatorDeployment.yml](./kubernetes/paymentCalculatorDeployment.yml)
+   Note: change the values in [paymentCalculatorDeployment.yml](kubernetes/paymentCalculatorDeployment.yml)
    for "spring.redis.host" and "spring.redis.port" as appropriate for your cluster.
    The values in that configuration work with the simple Redis pod and service created above.
 
@@ -137,7 +137,7 @@ this by modifying [pom.xml](pom.xml).
 1. Create Service
 
    Note: the service configuration assumes you have a load balancer available in your cluster. If not,
-   you can change the service type to "NodePort" in [paymentCalculatorService.yml](./kubernetes/paymentCalculatorService.yml)
+   you can change the service type to "NodePort" in [paymentCalculatorService.yml](kubernetes/paymentCalculatorService.yml)
 
    ```shell
    kubectl create -f ./kubernetes/paymentCalculatorService.yml
