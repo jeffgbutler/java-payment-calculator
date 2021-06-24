@@ -34,6 +34,14 @@ translate Redis credentials into the proper environment variables for Spring Boo
 
 If the application is not deployed to Cloud Foundry, no environment variables will be set automatically.
 
+Deploy the application to Cloud Foundry with the following commands:
+
+```shell
+./mvnw clean package
+
+cf push
+```
+
 ## Cloud Native Runtimes (Knative)
 
 (These directions assume that Tanzu Cloud Native Runtimes is installed and configured on your cluster)
