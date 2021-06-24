@@ -25,7 +25,9 @@ Install with CNR:
 
 ```shell
 kn service create payment-calculator \
-   --image jeffgbutler/payment-calculator --port 8080 --env spring.redis.host=redis --env spring.redis.port=6379 \
+   --image jeffgbutler/payment-calculator --port 8080 \
+   --env spring.redis.host=redis \
+   --env spring.redis.port=6379 \
    --env spring.profiles.active=cloud
 ```
 
