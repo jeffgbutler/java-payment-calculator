@@ -9,10 +9,10 @@ https://jeffgbutler.github.io/payment-calculator-client/ (Kubernetes deployments
 
 ## Spring Profiles and Redis
 If the "cloud" profile is enabled the application requires, and will connect to, a Redis cache.
-When running without the cloud profile enabled, the application will use an in-memory cache to simulate Redis.
+When running without the "cloud" profile enabled, the application will use an in-memory cache to simulate Redis.
 
-When the "cloud" profile is enabled, the application will use Spring Boot's configuration properties to connect to Redis.
-Important properties are these:
+When the "cloud" profile is enabled, the application will use Spring Boot's auto configuration properties to connect
+to Redis. Important properties are these:
 
 - `spring.redis.host`
 - `spring.redis.port`
@@ -78,6 +78,13 @@ this by modifying [pom.xml](pom.xml).
       --env spring.profiles.active=cloud
    ```
 
+Once the service is created, the output of the `kn` command will tell you the URL. You can also retrieve the URL
+with the following command:
+
+```shell
+kn service describe payment-calculator
+```
+
 After testing, cleanup you cluster with the following commands:
 
 ```shell
@@ -135,6 +142,12 @@ this by modifying [pom.xml](pom.xml).
    ```shell
    kubectl create -f ./kubernetes/paymentCalculatorService.yml
    ```
+
+Once the service is created, you can retrieve the IP address with the following command:
+
+```shell
+kubectl get service payment-calculator
+```
 
 After testing, cleanup you cluster with the following commands:
 
