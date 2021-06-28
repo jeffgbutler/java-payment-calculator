@@ -1,6 +1,5 @@
 package tanzu.workshop.paymentcalculator.http;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,8 +13,11 @@ import tanzu.workshop.paymentcalculator.service.CrashService;
 @RequestMapping("/crash")
 public class CrashController {
 
-    @Autowired
-    private CrashService crashService;
+    private final CrashService crashService;
+
+    public CrashController(CrashService crashService) {
+        this.crashService = crashService;
+    }
 
     @ApiOperation("Warning! The application will crash 2 seconds after this method is called")
     @GetMapping()

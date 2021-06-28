@@ -4,8 +4,7 @@ import java.math.BigDecimal;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,16 +20,20 @@ import tanzu.workshop.paymentcalculator.service.PaymentService;
 @RequestMapping("/payment")
 public class PaymentController {
 
-    @Value("${cloud.application.instance_index:local}")
-    private String instance;
+    private final String runtimeInstance;
 
-    @Autowired
-    private HitCounterService hitCounterService;
+    private final HitCounterService hitCounterService;
 
-    @Autowired
-    private PaymentService paymentService;
+    private final PaymentService paymentService;
 
     private static final Logger logger = LoggerFactory.getLogger(PaymentController.class);
+
+    public PaymentController(HitCounterService hitCounterService, PaymentService paymentService,
+                             @Qualifier("runtimeInstance") String runtimeInstance) {
+        this.hitCounterService = hitCounterService;
+        this.paymentService = paymentService;
+        this.runtimeInstance = runtimeInstance;
+    }
 
     @GetMapping()
     public CalculatedPayment calculatePayment(@RequestParam("amount") double amount, @RequestParam("rate") double rate,
@@ -46,7 +49,7 @@ public class PaymentController {
         calculatedPayment.setRate(rate);
         calculatedPayment.setYears(years);
         calculatedPayment.setPayment(payment);
-        calculatedPayment.setInstance(instance);
+        calculatedPayment.setInstance(runtimeInstance);
         calculatedPayment.setCount(hitCounterService.incrementCounter());
 
         return calculatedPayment;

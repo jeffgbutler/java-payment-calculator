@@ -1,6 +1,5 @@
 package tanzu.workshop.paymentcalculator.http;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,8 +12,11 @@ import tanzu.workshop.paymentcalculator.service.HitCounterService;
 @RequestMapping("/resetCount")
 public class ResetHitCounterController {
 
-    @Autowired
-    private HitCounterService hitCounterService;
+    private final HitCounterService hitCounterService;
+
+    public ResetHitCounterController(HitCounterService hitCounterService) {
+        this.hitCounterService = hitCounterService;
+    }
 
     @GetMapping
     public void reset() {
