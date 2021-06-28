@@ -6,7 +6,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 @Service
-@Profile({"cloud", "kubernetes"})
+@Profile("redis")
 public class RedisHitCounterService implements HitCounterService {
 
     private static final String REDIS_KEY = "payment-calculator";

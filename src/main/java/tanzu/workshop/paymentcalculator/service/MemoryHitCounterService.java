@@ -4,7 +4,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
 @Service
-@Profile("!cloud")
+@Profile("!redis")
 public class MemoryHitCounterService implements HitCounterService {
 
     private long hitCount = 0;

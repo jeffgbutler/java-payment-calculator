@@ -4,6 +4,6 @@ applications:
   env:
     JBP_CONFIG_OPEN_JDK_JRE: "{jre: {version: 11.+}}"
     JBP_CONFIG_SPRING_AUTO_RECONFIGURATION: '{enabled: false}'
-    SPRING_PROFILES_ACTIVE: cloud
+    SPRING_PROFILES_ACTIVE: redis
   services:
   - java-calculator-redis

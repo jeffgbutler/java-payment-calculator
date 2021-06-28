@@ -8,8 +8,8 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.GenericToStringSerializer;
 
 @Configuration
-@Profile("cloud")
-public class CloudConfiguration {
+@Profile("redis")
+public class RedisConfiguration {
     @Bean
     public RedisTemplate<String, Integer> redisTemplate(RedisConnectionFactory redisFactory) {
         RedisTemplate<String, Integer> template = new RedisTemplate<>();

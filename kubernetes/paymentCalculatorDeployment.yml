@@ -25,4 +25,4 @@ spec:
             - name: spring.redis.port
               value: "6397"
             - name: spring.profiles.active
-              value: cloud
+              value: redis
