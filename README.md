@@ -208,7 +208,7 @@ this by modifying [pom.xml](pom.xml).
    kubectl create -f ./kubernetes/paymentCalculatorDeployment.yml
    ```
    
-If you have a Wavefront proxy installed in your cluster, you can use it with this deployment instead:
+   If you have a Wavefront proxy installed in your cluster, you can use it with this deployment instead:
 
    ```shell
    kubectl create -f ./kubernetes/paymentCalculatorDeploymentWithWavefront.yml
