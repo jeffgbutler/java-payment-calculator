@@ -23,6 +23,6 @@ spec:
             - name: spring.redis.host
               value: redis
             - name: spring.redis.port
-              value: "6397"
+              value: "6379"
             - name: spring.profiles.active
               value: redis
