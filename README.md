@@ -141,6 +141,17 @@ this by modifying [pom.xml](pom.xml).
       --env spring.profiles.active=redis
    ```
 
+If you have a Wavefront proxy installed in your cluster, you can use it with the following command:
+
+   ```shell
+   kn service create payment-calculator \
+      --image jeffgbutler/payment-calculator --port 8080 \
+      --env spring.redis.host=redis \
+      --env spring.redis.port=6379 \
+      --env spring.profiles.active=redis,wavefront \
+      --env management.metrics.export.wavefront.uri=proxy://wavefront-proxy.wavefront.svc.cluster.local:2878
+   ```
+
 The output of the `kn` command will tell you the URL for the service. You can also retrieve the URL
 with the following command:
 
@@ -195,6 +206,12 @@ this by modifying [pom.xml](pom.xml).
 
    ```shell
    kubectl create -f ./kubernetes/paymentCalculatorDeployment.yml
+   ```
+   
+If you have a Wavefront proxy installed in your cluster, you can use it with this deployment instead:
+
+   ```shell
+   kubectl create -f ./kubernetes/paymentCalculatorDeploymentWithWavefront.yml
    ```
 
 1. Create Service
