@@ -97,6 +97,16 @@ After testing, cleanup Docker by following these steps:
 1. Run `docker system prune` to remove the stopped images, and the network (you can also use `docker system prune -a` to
    remove all unused images from your local image cache)
 
+## Using Tanzu Build Service
+
+This application can be built using Tanzu Build Service (TBS). For example, this command will create a TBS
+image and publish it to a harbor instance:
+
+```shell
+kp image create java-payment-calculator --tag harbor.tanzuathome.net/tbs-builds/java-payment-calculator \
+ --git https://github.com/jeffgbutler/java-payment-calculator --wait 
+```
+
 ## Deploying to Tanzu Cloud Native Runtimes (Knative)
 
 (These directions assume that Tanzu Cloud Native Runtimes is installed and configured on your cluster)
@@ -116,19 +126,19 @@ this by modifying [pom.xml](pom.xml).
    This will make a Redis instance available in the cluster at DNS name "redis" and port "6397". Note that
    this Redis instance will not persist any data and has no password - so use this for testing only!
 
-1. Build the image with the following:
+2. Build the image with the following:
 
    ```shell
    ./mvnw clean spring-boot:build-image
    ```
 
-1. Push image to Docker Hub (login to Docker Hub first with `docker login`):
+3. Push image to Docker Hub (login to Docker Hub first with `docker login`):
 
    ```shell
    docker push jeffgbutler/payment-calculator
    ```
 
-1. Install with Cloud Native Runtimes (Knative):
+4. Install with Cloud Native Runtimes (Knative):
 
    Note: change the values for "spring.redis.host" and "spring.redis.port" as appropriate for your cluster.
    The values below work with the simple Redis pod and service created above.
@@ -141,7 +151,24 @@ this by modifying [pom.xml](pom.xml).
       --env spring.profiles.active=redis
    ```
 
-If you have a Wavefront proxy installed in your cluster, you can use it with the following command:
+   If you built the container image using Tanzu Build service, the command will look like this:
+
+   ```shell
+   kn service create payment-calculator \
+      --image harbor.tanzuathome.net/tbs-builds/java-payment-calculator@sha256:6a9c53d98a2426ba4b4b24ee10128950fd2c7a1acbd242928d2b274db273b5cb \
+      --port 8080 \
+      --env spring.redis.host=redis \
+      --env spring.redis.port=6379 \
+      --env spring.profiles.active=redis
+   ```
+
+   To update an image after a build, the command looks like this:
+
+   ```shell
+   kubectl edit ksvc payment-calculator
+   ```
+
+   If you have a Wavefront proxy installed in your cluster, you can use it with the following command:
 
    ```shell
    kn service create payment-calculator \
