@@ -45,6 +45,24 @@ Deploy the application to Cloud Foundry with the following commands:
 cf push
 ```
 
+## Deploying to Tanzu Application Platform (TAP)
+
+The application can be deployed to TAP using the out of the box supply chain with the following command:
+
+```shell
+tanzu apps workload create java-payment-calculator \
+  --git-repo https://github.com/jeffgbutler/java-payment-calculator \
+  --git-branch main \
+  --type web \
+  --label app.kubernetes.io/part-of=java-payment-calculator \
+  --yes \
+  --namespace <YOUR_NAMESPACE>
+```
+
+Once deployed to TAP, you can add the application to the TAP GUI by registering the following catalog entry:
+  https://github.com/jeffgbutler/java-payment-calculator/blob/main/catalog/catalog-info.yaml
+
+
 ## Deploying to Docker
 
 The application is configured to create an image named "jeffgbutler/payment-calculator". You can change
