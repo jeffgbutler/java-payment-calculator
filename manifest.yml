@@ -2,7 +2,7 @@ applications:
 - name: java-payment-calculator
   path: target/payment-calculator-0.0.1-SNAPSHOT.jar
   env:
-    JBP_CONFIG_OPEN_JDK_JRE: "{jre: {version: 11.+}}"
+    JBP_CONFIG_OPEN_JDK_JRE: "{jre: {version: 17.+}}"
     JBP_CONFIG_SPRING_AUTO_RECONFIGURATION: '{enabled: false}'
     SPRING_PROFILES_ACTIVE: redis
   services:

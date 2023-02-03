@@ -11,34 +11,34 @@ import org.springframework.web.servlet.view.RedirectView;
 @SpringBootApplication
 @Controller
 public class PaymentCalculatorApplication {
-	public static void main(String[] args) {
-		SpringApplication.run(PaymentCalculatorApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(PaymentCalculatorApplication.class, args);
+    }
 
-	@Bean
-	public CfEnv cfEnv() {
-		return new CfEnv();
-	}
+    @Bean()
+    public CfEnv cfEnv() {
+        return new CfEnv();
+    }
 
-	@Bean(name = "runtimeInstance")
-	public String runtimeInstance(CfEnv cfEnv) {
-		// try to determine where we are running. If on Cloud Foundry,
-		// we can figure out which instance too
-		String instance;
+    @Bean(name = "runtimeInstance")
+    public String runtimeInstance(CfEnv cfEnv) {
+        // try to determine where we are running. If on Cloud Foundry,
+        // we can figure out which instance too
+        String instance;
 
-		if (cfEnv.isInCf()) {
-			instance = "CF Instance: " + cfEnv.getApp().getInstanceIndex();
-		} else if (System.getenv("KUBERNETES_SERVICE_HOST") != null) {
-			instance = "Kubernetes";
-		} else {
-			instance = "Docker or Local";
-		}
+        if (cfEnv.isInCf()) {
+            instance = "CF Instance: " + cfEnv.getApp().getInstanceIndex();
+        } else if (System.getenv("KUBERNETES_SERVICE_HOST") != null) {
+            instance = "Kubernetes";
+        } else {
+            instance = "Docker or Local";
+        }
 
-		return instance;
-	}
+        return instance;
+    }
 
-	@RequestMapping("/")
-	public RedirectView redirectToSwagger() {
-		return new RedirectView("swagger-ui.html");
-	}
+    @RequestMapping("/")
+    public RedirectView redirectToSwagger() {
+        return new RedirectView("swagger-ui.html");
+    }
 }
