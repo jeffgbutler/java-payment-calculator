@@ -17,9 +17,9 @@ When running without the "redis" profile enabled, the application will use an in
 The application uses Spring Boot's auto-configuration for Redis which is based on properties.
 Important properties are these:
 
-- `spring.redis.host`
-- `spring.redis.port`
-- `spring.redis.password`
+- `spring.data.redis.host`
+- `spring.data.redis.port`
+- `spring.data.redis.password`
 
 The documentation to all possible Redis properties is here:
 https://github.com/spring-projects/spring-boot/blob/main/spring-boot-project/spring-boot-autoconfigure/src/main/java/org/springframework/boot/autoconfigure/data/redis/RedisProperties.java
@@ -99,8 +99,8 @@ this by modifying [pom.xml](pom.xml).
 
    ```shell
    docker run --detach --publish 8080:8080 \
-     --env spring.redis.host=redis \
-     --env spring.redis.port=6379 \
+     --env spring.data.redis.host=redis \
+     --env spring.data.redis.port=6379 \
      --env spring.profiles.active=redis \
      --network payment-calculator-network \
      jeffgbutler/payment-calculator
@@ -158,14 +158,14 @@ this by modifying [pom.xml](pom.xml).
 
 4. Install with Cloud Native Runtimes (Knative):
 
-   Note: change the values for "spring.redis.host" and "spring.redis.port" as appropriate for your cluster.
+   Note: change the values for "spring.data.redis.host" and "spring.data.redis.port" as appropriate for your cluster.
    The values below work with the simple Redis pod and service created above.
 
    ```shell
    kn service create payment-calculator \
       --image jeffgbutler/payment-calculator --port 8080 \
-      --env spring.redis.host=redis \
-      --env spring.redis.port=6379 \
+      --env spring.data.redis.host=redis \
+      --env spring.data.redis.port=6379 \
       --env spring.profiles.active=redis
    ```
 
@@ -175,8 +175,8 @@ this by modifying [pom.xml](pom.xml).
    kn service create payment-calculator \
       --image harbor.tanzuathome.net/tbs-builds/java-payment-calculator@sha256:6a9c53d98a2426ba4b4b24ee10128950fd2c7a1acbd242928d2b274db273b5cb \
       --port 8080 \
-      --env spring.redis.host=redis \
-      --env spring.redis.port=6379 \
+      --env spring.data.redis.host=redis \
+      --env spring.data.redis.port=6379 \
       --env spring.profiles.active=redis
    ```
 
@@ -191,10 +191,10 @@ this by modifying [pom.xml](pom.xml).
    ```shell
    kn service create payment-calculator \
       --image jeffgbutler/payment-calculator --port 8080 \
-      --env spring.redis.host=redis \
-      --env spring.redis.port=6379 \
+      --env spring.data.redis.host=redis \
+      --env spring.data.redis.port=6379 \
       --env spring.profiles.active=redis,wavefront \
-      --env management.metrics.export.wavefront.uri=proxy://wavefront-proxy.wavefront.svc.cluster.local:2878
+      --env management.wavefront.uri=proxy://wavefront-proxy.wavefront.svc.cluster.local:2878
    ```
 
 The output of the `kn` command will tell you the URL for the service. You can also retrieve the URL
@@ -246,7 +246,7 @@ this by modifying [pom.xml](pom.xml).
 1. Create Deployment:
 
    Note: change the values in [paymentCalculatorDeployment.yml](kubernetes/paymentCalculatorDeployment.yml)
-   for "spring.redis.host" and "spring.redis.port" as appropriate for your cluster.
+   for "spring.data.redis.host" and "spring.data.redis.port" as appropriate for your cluster.
    The values in that configuration work with the simple Redis pod and service created above.
 
    ```shell
