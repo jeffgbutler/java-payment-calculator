@@ -1,9 +1,8 @@
 management:
-  metrics:
-    export:
-      wavefront:
+  wavefront:
+    application:
+      name: Payment Calculator
+      service-name: Payment Calculator
+    metrics:
+      export:
         enabled: true
-wavefront:
-  application:
-    name: Payment Calculator
-    service: Payment Calculator

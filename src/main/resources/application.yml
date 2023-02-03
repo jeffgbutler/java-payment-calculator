@@ -12,7 +12,8 @@ management:
     web:
       exposure:
         include: "*"
-  metrics:
-    export:
-      wavefront:
+  wavefront:
+    metrics:
+      export:
         enabled: false
+    api-token: ""
