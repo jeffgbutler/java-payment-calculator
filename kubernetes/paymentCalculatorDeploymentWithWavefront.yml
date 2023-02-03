@@ -20,11 +20,11 @@ spec:
           ports:
             - containerPort: 8080
           env:
-            - name: spring.redis.host
+            - name: spring.data.redis.host
               value: redis
-            - name: spring.redis.port
+            - name: spring.data.redis.port
               value: "6379"
             - name: spring.profiles.active
               value: redis,wavefront
-            - name: management.metrics.export.wavefront.uri
+            - name: management.wavefront.uri
               value: proxy://wavefront-proxy.wavefront.svc.cluster.local:2878
