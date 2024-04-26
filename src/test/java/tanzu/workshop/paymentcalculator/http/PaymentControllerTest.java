@@ -9,16 +9,12 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppC
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.context.WebApplicationContext;
 
-@ExtendWith(SpringExtension.class)
 @SpringBootTest
 public class PaymentControllerTest {
     private MockMvc mockMvc;
@@ -34,43 +30,42 @@ public class PaymentControllerTest {
     @Test
     public void testWithInterest() throws Exception {
         mockMvc.perform(get("/resetCount"))
-        .andExpect(status().is(HttpStatus.OK.value()));
+                .andExpect(status().isOk());
 
         mockMvc.perform(get("/payment?amount=100000&rate=3.5&years=30"))
-        .andExpect(status().is(HttpStatus.OK.value()))
-        .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-        .andExpect(jsonPath("$.payment", is(449.04)))
-        .andExpect(jsonPath("$.count", is(1)));
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.payment", is(449.04)))
+                .andExpect(jsonPath("$.count", is(1)));
     }
 
     @Test
     public void testZeroInterest() throws Exception {
         mockMvc.perform(get("/resetCount"))
-        .andExpect(status().is(HttpStatus.OK.value()));
+                .andExpect(status().isOk());
 
         mockMvc.perform(get("/payment?amount=100000&rate=0&years=30"))
-        .andExpect(status().is(HttpStatus.OK.value()))
-        .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-        .andExpect(jsonPath("$.payment", is(277.78)))
-        .andExpect(jsonPath("$.count", is(1)));
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.payment", is(277.78)))
+                .andExpect(jsonPath("$.count", is(1)));
     }
 
     @Test
     public void testThatHitCounterIncrements() throws Exception {
         mockMvc.perform(get("/resetCount"))
-        .andExpect(status().is(HttpStatus.OK.value()));
+                .andExpect(status().isOk());
 
         mockMvc.perform(get("/payment?amount=100000&rate=3.5&years=30"))
-        .andExpect(status().is(HttpStatus.OK.value()))
-        .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-        .andExpect(jsonPath("$.payment", is(449.04)))
-        .andExpect(jsonPath("$.count", is(1)));
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.payment", is(449.04)))
+                .andExpect(jsonPath("$.count", is(1)));
 
         mockMvc.perform(get("/payment?amount=100000&rate=0&years=30"))
-        .andExpect(status().is(HttpStatus.OK.value()))
-        .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-        .andExpect(jsonPath("$.payment", is(277.78)))
-        .andExpect(jsonPath("$.count", is(2)));
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.payment", is(277.78)))
+                .andExpect(jsonPath("$.count", is(2)));
     }
 }
-    

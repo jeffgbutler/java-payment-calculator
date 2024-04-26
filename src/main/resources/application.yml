@@ -8,12 +8,9 @@ management:
   endpoint:
     health:
       show-details: always
+    info:
+      enabled: true
   endpoints:
     web:
       exposure:
         include: "*"
-  wavefront:
-    metrics:
-      export:
-        enabled: false
-    api-token: ""
