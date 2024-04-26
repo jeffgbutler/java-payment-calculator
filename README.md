@@ -55,8 +55,9 @@ tanzu apps workload create java-payment-calculator \
   --git-branch main \
   --type web \
   --label app.kubernetes.io/part-of=java-payment-calculator \
-  --build-env "BP_JVM_VERSION=17" \
-  --yes \
+  --label apps.tanzu.vmware.com/has-tests=true \
+  --annotation autoscaling.knative.dev/minScale=1 \
+  --build-env "BP_JVM_VERSION=21" \
   --namespace <YOUR_NAMESPACE>
 ```
 
