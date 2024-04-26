@@ -47,7 +47,7 @@ cf push
 
 ## Deploying to Tanzu Application Platform (TAP)
 
-The application can be deployed to TAP using the out of the box supply chain with the following command:
+The application can be deployed to TAP using the out-of-the-box supply chain with the following command:
 
 ```shell
 tanzu apps workload create java-payment-calculator \
@@ -55,6 +55,7 @@ tanzu apps workload create java-payment-calculator \
   --git-branch main \
   --type web \
   --label app.kubernetes.io/part-of=java-payment-calculator \
+  --build-env "BP_JVM_VERSION=17" \
   --yes \
   --namespace <YOUR_NAMESPACE>
 ```
