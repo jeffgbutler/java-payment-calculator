@@ -9,7 +9,7 @@ management:
     health:
       show-details: always
     info:
-      enabled: true
+      access: unrestricted
   endpoints:
     web:
       exposure:
