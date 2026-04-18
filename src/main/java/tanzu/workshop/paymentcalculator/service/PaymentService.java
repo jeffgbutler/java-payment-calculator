@@ -3,16 +3,41 @@ package tanzu.workshop.paymentcalculator.service;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
+import io.opentelemetry.api.GlobalOpenTelemetry;
+import io.opentelemetry.api.trace.Span;
+import io.opentelemetry.api.trace.StatusCode;
+import io.opentelemetry.api.trace.Tracer;
+import io.opentelemetry.context.Scope;
 import org.springframework.stereotype.Service;
 
 @Service
 public class PaymentService {
 
     public BigDecimal calculate(double amount, double rate, int years) {
-        if (rate == 0.0) {
-            return calculateWithoutInterest(amount, years);
-        } else {
-            return calculateWithInterest(amount, rate, years);
+        Tracer tracer = GlobalOpenTelemetry.getTracer("payment-calculator");
+        Span span = tracer.spanBuilder("payment.calculate").startSpan();
+        try (Scope scope = span.makeCurrent()) {
+            span.setAttribute("loan.amount", amount);
+            span.setAttribute("loan.rate", rate);
+            span.setAttribute("loan.years", years);
+
+            BigDecimal payment;
+            if (rate == 0.0) {
+                span.setAttribute("loan.type", "zero-interest");
+                payment = calculateWithoutInterest(amount, years);
+            } else {
+                span.setAttribute("loan.type", "interest");
+                payment = calculateWithInterest(amount, rate, years);
+            }
+
+            span.setAttribute("loan.payment", payment.doubleValue());
+            return payment;
+        } catch (Exception e) {
+            span.recordException(e);
+            span.setStatus(StatusCode.ERROR, e.getMessage());
+            throw e;
+        } finally {
+            span.end();
         }
     }
 

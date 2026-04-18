@@ -2,6 +2,7 @@ package tanzu.workshop.paymentcalculator.http;
 
 import java.math.BigDecimal;
 
+import io.opentelemetry.api.trace.Span;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -21,9 +22,7 @@ import tanzu.workshop.paymentcalculator.service.PaymentService;
 public class PaymentController {
 
     private final String runtimeInstance;
-
     private final HitCounterService hitCounterService;
-
     private final PaymentService paymentService;
 
     private static final Logger logger = LoggerFactory.getLogger(PaymentController.class);
@@ -44,13 +43,24 @@ public class PaymentController {
         logger.debug("Calculated payment of {} for input amount: {}, rate: {}, years: {}",
             payment, amount, rate, years);
 
+        long count = hitCounterService.incrementCounter();
+
+        // Enrich the auto-instrumented HTTP span with loan business context
+        Span.current()
+            .setAttribute("loan.amount", amount)
+            .setAttribute("loan.rate", rate)
+            .setAttribute("loan.years", years)
+            .setAttribute("loan.payment", payment.doubleValue())
+            .setAttribute("app.instance", runtimeInstance)
+            .setAttribute("app.hit_count", count);
+
         CalculatedPayment calculatedPayment = new CalculatedPayment();
         calculatedPayment.setAmount(amount);
         calculatedPayment.setRate(rate);
         calculatedPayment.setYears(years);
         calculatedPayment.setPayment(payment);
         calculatedPayment.setInstance(runtimeInstance);
-        calculatedPayment.setCount(hitCounterService.incrementCounter());
+        calculatedPayment.setCount(count);
 
         return calculatedPayment;
     }
