@@ -3,7 +3,6 @@ package tanzu.workshop.paymentcalculator.service;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
-import io.opentelemetry.api.GlobalOpenTelemetry;
 import io.opentelemetry.api.trace.Span;
 import io.opentelemetry.api.trace.StatusCode;
 import io.opentelemetry.api.trace.Tracer;
@@ -12,9 +11,13 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class PaymentService {
+    private final Tracer tracer;
+
+    public PaymentService(Tracer tracer) {
+        this.tracer = tracer;
+    }
 
     public BigDecimal calculate(double amount, double rate, int years) {
-        Tracer tracer = GlobalOpenTelemetry.getTracer("payment-calculator");
         Span span = tracer.spanBuilder("payment.calculate").startSpan();
         try (Scope scope = span.makeCurrent()) {
             span.setAttribute("loan.amount", amount);
@@ -32,7 +35,7 @@ public class PaymentService {
 
             span.setAttribute("loan.payment", payment.doubleValue());
             return payment;
-        } catch (Exception e) {
+        } catch (RuntimeException e) {
             span.recordException(e);
             span.setStatus(StatusCode.ERROR, e.getMessage());
             throw e;
