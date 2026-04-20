@@ -1,0 +1,19 @@
+spring:
+  autoconfigure:
+    exclude:
+      - org.springframework.boot.data.redis.autoconfigure.DataRedisAutoConfiguration
+
+management:
+  otlp:
+    metrics:
+      export:
+        url: http://otel.jbcodes.net:4318/v1/metrics
+  opentelemetry:
+    logging:
+      export:
+        otlp:
+          endpoint: http://otel.jbcodes.net:4318/v1/logs
+    tracing:
+      export:
+        otlp:
+          endpoint: http://otel.jbcodes.net:4318/v1/traces

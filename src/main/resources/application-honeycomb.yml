@@ -1,0 +1,25 @@
+spring:
+  autoconfigure:
+    exclude:
+      - org.springframework.boot.data.redis.autoconfigure.DataRedisAutoConfiguration
+
+management:
+  otlp:
+    metrics:
+      export:
+        url: https://api.honeycomb.io/v1/metrics
+        headers:
+          "x-honeycomb-team": "${HONEYCOMB_API_KEY}"
+  opentelemetry:
+    logging:
+      export:
+        otlp:
+          endpoint: https://api.honeycomb.io/v1/logs
+          headers:
+            "x-honeycomb-team": "${HONEYCOMB_API_KEY}"
+    tracing:
+      export:
+        otlp:
+          endpoint: https://api.honeycomb.io/v1/traces
+          headers:
+            "x-honeycomb-team": "${HONEYCOMB_API_KEY}"
